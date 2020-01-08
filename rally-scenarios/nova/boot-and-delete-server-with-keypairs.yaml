@@ -1,4 +1,6 @@
-{% set flavor_name = flavor_name or "m1.tiny" %}
+{% set image_name = image_name or "centos7" %}
+{% set flavor_name = flavor_name or "m1.small" %}
+{% set sla_max_failure = sla_max_failure or 0 %}
 ---
   NovaKeypair.boot_and_delete_server_with_keypair:
     -
@@ -6,7 +8,7 @@
         flavor:
             name: "{{flavor_name}}"
         image:
-            name: "^cirros.*-disk$"
+            name: {{image_name}}
         boot_server_kwargs: {}
       runner:
         type: "constant"
@@ -20,4 +22,4 @@
           start_cidr: "100.1.0.0/26"
       sla:
         failure_rate:
-          max: 0
+          max: {{sla_max_failure}}

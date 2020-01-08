@@ -1,4 +1,6 @@
-{% set flavor_name = flavor_name or "m1.tiny" %}
+{% set image_name = image_name or "centos7" %}
+{% set flavor_name = flavor_name or "m1.small" %}
+{% set sla_max_failure = sla_max_failure or 0 %}
 ---
   NovaServers.boot_and_associate_floating_ip:
     -
@@ -6,7 +8,7 @@
         flavor:
             name: "{{flavor_name}}"
         image:
-            name: "^cirros.*-disk$"
+            name: {{image_name}}
       runner:
         type: "constant"
         times: {{times}}
@@ -24,7 +26,7 @@
         flavor:
             name: "{{flavor_name}}"
         image:
-            name: "^cirros.*-disk$"
+            name: {{image_name}}
         create_floating_ip_args:
             ext_network: "ext_network_name"
       runner:
@@ -38,4 +40,4 @@
         network: {}
       sla:
         failure_rate:
-          max: 0
+          max: {{sla_max_failure}}

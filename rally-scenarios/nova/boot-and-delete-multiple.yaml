@@ -1,10 +1,12 @@
-{% set flavor_name = flavor_name or "m1.tiny" %}
+{% set image_name = image_name or "centos7" %}
+{% set flavor_name = flavor_name or "m1.small" %}
+{% set sla_max_seconds = sla_max_seconds or 60 %}
 ---
   NovaServers.boot_and_delete_multiple_servers:
     -
       args:
         image:
-          name: "^cirros.*-disk$"
+          name: {{image_name}}
         flavor:
           name: "{{flavor_name}}"
         count: 5
@@ -18,4 +20,4 @@
           users_per_tenant: 1
       sla:
         failure_rate:
-          max: 0
+          max: {{sla_max_seconds}}
