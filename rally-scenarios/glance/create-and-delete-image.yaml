@@ -1,0 +1,19 @@
+{% set http_server_with_glance_images = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2" %}
+---
+  GlanceImages.create_and_delete_image:
+    -
+      args:
+        image_location: "{{ http_server_with_glance_images }}"
+        container_format: "bare"
+        disk_format: "qcow2"
+      runner:
+        type: "constant"
+        times: {{times}}
+        concurrency: {{concurrency}}
+      context:
+        users:
+          tenants: 2
+          users_per_tenant: 3
+      sla:
+        failure_rate:
+          max: 0
